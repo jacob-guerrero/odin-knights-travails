@@ -12,3 +12,24 @@ const gameBoard = [
 const knight = {
   position: [0, 0],
 };
+
+const possibleMovesFrom = (position) => {
+  const moves = [
+    [1, 2],
+    [1, -2],
+    [-1, 2],
+    [-1, -2],
+    [2, 1],
+    [2, -1],
+    [-2, 1],
+    [-2, -1],
+  ];
+
+  const validMoves = moves
+    .map((move) => [position[0] + move[0], position[1] + move[1]])
+    .filter(
+      (move) => move[0] >= 0 && move[0] < 8 && move[1] >= 0 && move[1] < 8
+    );
+
+  return validMoves;
+};
