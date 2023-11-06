@@ -33,3 +33,49 @@ const possibleMovesFrom = (position) => {
 
   return validMoves;
 };
+
+const knightTravailsBFS = (start, end) => {
+  const queue = [];
+  const visited = new Set();
+  const prev = {};
+
+  queue.push(start);
+  visited.add(start.toString());
+  prev[start.toString()] = null;
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+
+    if (current[0] === end[0] && current[1] === end[1]) {
+      // Found the end position, reconstruct the path and return it
+      const path = [];
+      let at = end.toString();
+      while (at !== null) {
+        path.unshift(at.split(',').map(Number));
+        at = prev[at];
+      }
+      return path;
+    }
+
+    const possibleMoves = possibleMovesFrom(current);
+    for (const move of possibleMoves) {
+      const moveString = move.toString();
+      if (!visited.has(moveString)) {
+        queue.push(move);
+        visited.add(moveString);
+        prev[moveString] = current.toString();
+      }
+    }
+  }
+
+  // If no path is found
+  return null;
+};
+  
+const start = [3, 3];
+const end = [4, 3];
+const shortestPath = knightTravailsBFS(start, end);
+console.log(`You made it in ${shortestPath.length - 1} moves! Here´s your path: `);
+shortestPath.forEach(path => {
+  console.log(path);
+});
